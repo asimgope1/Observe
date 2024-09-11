@@ -128,9 +128,9 @@ export default function ProposalPage() {
 				I'm on one knee, asking you this...
 			</p>
 			<form
-				onSubmit={step === questions.length - 1 ? handleSubmit : handleNext}
+				onSubmit={step === questions.length ? handleSubmit : handleNext}
 				className='space-y-6 bg-white p-8 rounded-lg shadow-lg'>
-				{currentQuestion && (
+				{step < questions.length && currentQuestion && (
 					<div>
 						<label className='block text-xl font-medium text-pink-600'>
 							{currentQuestion.label}
@@ -178,10 +178,17 @@ export default function ProposalPage() {
 					</div>
 				)}
 
+				{/* Render "Will you be mine?" if it's the last step */}
+				{step === questions.length && (
+					<div className='text-center text-3xl font-semibold text-red-600'>
+						Will you be mine? 💍
+					</div>
+				)}
+
 				<button
 					type='submit'
 					className='w-full py-3 px-6 text-white bg-red-600 rounded-lg hover:opacity-75 font-semibold'>
-					{step === questions.length - 1 ? "Will you say yes?" : "Next"}
+					{step === questions.length ? "Will you say yes?" : "Next"}
 				</button>
 			</form>
 		</div>
