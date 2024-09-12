@@ -6,6 +6,13 @@ export default function ProposalPage() {
 	const [showFinal, setShowFinal] = useState(false); // Step 3: Final proposal state
 	const [dayCount, setDayCount] = useState(1); // Track day number
 
+	const dayStories = [
+		"It's a regular day of my life—the day we chatted and planned to meet. Your place was on my way home, so I took a left. Now I realize it was more than just a road; it was the right track. You were in a green T-shirt, like a green flag. We had tea, and then we returned.",
+		"Day 2, we met again. This time, we had some plans to get to know each other a bit more. What I remember most is your dolphin design earrings and your simple beauty.",
+		"Day 3, the traditional dress, the evening, the park, and the city view with you was just awesome.",
+		"The days are counting with more memories and stories... Let's not take too much time.",
+	];
+
 	const handleComeWithMeClick = (e) => {
 		e.preventDefault();
 		setShowInitial(false); // Hide initial message
@@ -25,7 +32,7 @@ export default function ProposalPage() {
 					}
 					return prevDay + 1;
 				});
-			}, 2000); // 2 seconds for each day
+			}, 5000); // 5 seconds for each day to display the story
 		}
 	}, [showDay]);
 
@@ -49,8 +56,11 @@ export default function ProposalPage() {
 			{showDay && (
 				<div className='relative w-full h-full flex justify-center items-center'>
 					<div className='heart-background absolute w-full h-full'></div>
-					<div className='absolute text-white text-6xl font-bold day-transition'>
-						Day {dayCount}
+					<div className='absolute text-black text-3xl sm:text-4xl font-bold day-transition'>
+						💕 Day {dayCount} 💕
+						<p className=' text-black text-xl sm:text-2xl font-light mt-4'>
+							{dayStories[dayCount - 1]}
+						</p>
 					</div>
 				</div>
 			)}

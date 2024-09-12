@@ -74,7 +74,7 @@
   top: 0;
 }
 
-/* Add this to smoothly transition between the days */
+/* Animation to smoothly transition between the days */
 .day-transition {
   animation: fadeIn 2s ease-in-out;
 }
