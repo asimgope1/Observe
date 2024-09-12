@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Alert, Linking } from "react-native";
 
 export default function ProposalPage() {
 	const [showInitial, setShowInitial] = useState(true); // Step 1: Initial state
@@ -49,35 +48,17 @@ export default function ProposalPage() {
 		}
 	}, [showDay]);
 
-	const openWhatsApp = () => {
-		const url = "whatsapp://send?phone=918340431775&text=Yes%20Asim";
-		Linking.canOpenURL(url)
-			.then((supported) => {
-				if (supported) {
-					Linking.openURL(url);
-				} else {
-					Alert.alert("Error", "WhatsApp is not installed on your device.");
-				}
-			})
-			.catch((err) => Alert.alert("Error", "An error occurred", err));
-	};
-
 	const handleYesClick = (e) => {
 		e.preventDefault();
-		Alert.alert(
-			"Open WhatsApp",
-			"Do you want to open WhatsApp to send your response?",
-			[
-				{
-					text: "Cancel",
-					style: "cancel",
-				},
-				{
-					text: "Open WhatsApp",
-					onPress: openWhatsApp,
-				},
-			],
-		);
+		const phoneNumber = "+918340431775";
+		const message = "Yes Asim";
+		const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(
+			message,
+		)}`;
+
+		if (window.confirm("Do you want to open WhatsApp to send your response?")) {
+			window.open(url, "_blank");
+		}
 	};
 
 	return (
