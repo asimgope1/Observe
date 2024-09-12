@@ -45,6 +45,8 @@
 }
 
 /* Heart animation */
+/* Heart animation styles */
+
 .heart-left-animation {
   animation: moveLeft 2s forwards;
 }
