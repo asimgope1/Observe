@@ -44,33 +44,47 @@
   color: #888;
 }
 
-/* Heart animation */
-/* Heart animation styles */
-
-.heart-left-animation {
-  animation: moveLeft 2s forwards;
+.heart-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  background-color: red;
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-.heart-right-animation {
-  animation: moveRight 2s forwards;
+.heart-background::before,
+.heart-background::after {
+  content: "";
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-color: red;
+  border-radius: 50%;
 }
 
-@keyframes moveLeft {
-  from {
-    transform: translateX(-100%) rotate(-45deg);
-  }
-
-  to {
-    transform: translateX(0) rotate(-45deg);
-  }
+.heart-background::before {
+  top: -100px;
+  left: 0;
 }
 
-@keyframes moveRight {
-  from {
-    transform: translateX(100%) rotate(45deg);
+.heart-background::after {
+  left: 100px;
+  top: 0;
+}
+
+/* Add this to smoothly transition between the days */
+.day-transition {
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
   }
 
-  to {
-    transform: translateX(0) rotate(45deg);
+  100% {
+    opacity: 1;
   }
 }

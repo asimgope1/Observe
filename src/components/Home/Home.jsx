@@ -1,36 +1,62 @@
 import React, { useState, useEffect } from "react";
 
 export default function ProposalPage() {
-	const [showHeart, setShowHeart] = useState(false);
-	const [step, setStep] = useState(0);
+	const [showInitial, setShowInitial] = useState(true); // Step 1: Initial state
+	const [showDay, setShowDay] = useState(false); // Step 2: Show days state
+	const [showFinal, setShowFinal] = useState(false); // Step 3: Final proposal state
+	const [dayCount, setDayCount] = useState(1); // Track day number
 
-	const handleYesClick = (e) => {
+	const handleComeWithMeClick = (e) => {
 		e.preventDefault();
-		setStep(1); // Start sequence
+		setShowInitial(false); // Hide initial message
+		setShowDay(true); // Start showing day sequence
 	};
 
 	useEffect(() => {
-		let timeout;
-		if (step === 1) {
-			// "Hey, come with me" appears first
-			timeout = setTimeout(() => setStep(2), 2000); // Show "Day 1" after 2 seconds
-		} else if (step === 2) {
-			// "Day 1" appears after "Hey, come with me"
-			timeout = setTimeout(() => setStep(3), 2000); // Show "Day 2" after 2 seconds
-		} else if (step === 3) {
-			// "Day 2" appears after "Day 1"
-			timeout = setTimeout(() => setStep(4), 2000); // Show "Day 3" after 2 seconds
-		} else if (step === 4) {
-			// "Day 3" appears after "Day 2"
-			timeout = setTimeout(() => setShowHeart(true), 2000); // Show heart animation after 2 seconds
+		if (showDay) {
+			let currentDay = 1;
+			const dayInterval = setInterval(() => {
+				setDayCount((prevDay) => {
+					if (prevDay >= 4) {
+						clearInterval(dayInterval);
+						setShowDay(false); // Hide day sequence
+						setShowFinal(true); // Show final proposal
+						return prevDay;
+					}
+					return prevDay + 1;
+				});
+			}, 2000); // 2 seconds for each day
 		}
-
-		return () => clearTimeout(timeout); // Clean up on unmount
-	}, [step]);
+	}, [showDay]);
 
 	return (
 		<div className='mx-auto w-full max-w-7xl p-4 bg-pink-50 min-h-screen flex justify-center items-center'>
-			{!showHeart ? (
+			{/* Step 1: Initial view */}
+			{showInitial && (
+				<div>
+					<h1 className='text-center text-4xl sm:text-5xl py-6 font-bold text-red-600'>
+						Hey Sabhya, come with me! 🌹
+					</h1>
+					<button
+						className='w-1/2 py-3 px-6 text-white bg-red-600 rounded-lg hover:opacity-75 font-semibold mx-auto block'
+						onClick={handleComeWithMeClick}>
+						Let's Go
+					</button>
+				</div>
+			)}
+
+			{/* Step 2: Day transition view with heart background */}
+			{showDay && (
+				<div className='relative w-full h-full flex justify-center items-center'>
+					<div className='heart-background absolute w-full h-full'></div>
+					<div className='absolute text-white text-6xl font-bold day-transition'>
+						Day {dayCount}
+					</div>
+				</div>
+			)}
+
+			{/* Step 3: Final proposal view */}
+			{showFinal && (
 				<div>
 					<h1 className='text-center text-4xl sm:text-5xl py-6 font-bold text-red-600'>
 						💕 A Special Question 💕
@@ -38,47 +64,16 @@ export default function ProposalPage() {
 					<p className='text-center text-lg font-light mb-8'>
 						I'm on one knee, asking you this...
 					</p>
-					{step === 0 ? (
-						<form className='space-y-6 bg-white p-8 rounded-lg shadow-lg'>
-							<div className='text-center text-3xl font-semibold text-red-600'>
-								Will you be mine? 💍
-							</div>
-							<button
-								type='submit'
-								className='w-1/2 py-3 px-6 text-white bg-red-600 rounded-lg hover:opacity-75 font-semibold mx-auto block'
-								onClick={handleYesClick}>
-								Yes
-							</button>
-						</form>
-					) : (
+					<form className='space-y-6 bg-white p-8 rounded-lg shadow-lg'>
 						<div className='text-center text-3xl font-semibold text-red-600'>
-							{step === 1 && "Hey, come with me..."}
-							{step === 2 && "Day 1"}
-							{step === 3 && "Day 2"}
-							{step === 4 && "Day 3"}
-						</div>
-					)}
-				</div>
-			) : (
-				<div className='relative w-full h-full flex justify-center items-center'>
-					{/* Left heart half */}
-					<div
-						className={`absolute w-1/2 h-64 bg-red-600 rounded-full transform origin-right ${
-							showHeart ? "heart-left-animation" : ""
-						}`}
-					/>
-					{/* Right heart half */}
-					<div
-						className={`absolute w-1/2 h-64 bg-red-600 rounded-full transform origin-left ${
-							showHeart ? "heart-right-animation" : ""
-						}`}
-					/>
-					{/* Final proposal message */}
-					{showHeart && (
-						<div className='absolute text-white text-4xl font-bold'>
 							Will you be mine? 💍
 						</div>
-					)}
+						<button
+							type='submit'
+							className='w-1/2 py-3 px-6 text-white bg-red-600 rounded-lg hover:opacity-75 font-semibold mx-auto block'>
+							Yes
+						</button>
+					</form>
 				</div>
 			)}
 		</div>
