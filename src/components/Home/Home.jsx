@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Alert, Linking } from "react-native";
 
 export default function ProposalPage() {
 	const [showInitial, setShowInitial] = useState(true); // Step 1: Initial state
 	const [showDay, setShowDay] = useState(false); // Step 2: Show days state
 	const [showFinal, setShowFinal] = useState(false); // Step 3: Final proposal state
 	const [dayCount, setDayCount] = useState(1); // Track day number
+	const [timer, setTimer] = useState(12); // Countdown timer
 
 	const dayStories = [
 		"It's a regular day of my life—the day we chatted and planned to meet. Your place was on my way home, so I took a left. Now I realize it was more than just a road; it was the right track. You were in a green T-shirt, like a green flag. We had tea, and then we returned.",
@@ -32,9 +34,51 @@ export default function ProposalPage() {
 					}
 					return prevDay + 1;
 				});
-			}, 5000); // 5 seconds for each day to display the story
+				setTimer(12); // Reset timer for each new day
+			}, 12000); // 12 seconds for each day to display the story
+
+			const countdown = setInterval(() => {
+				setTimer((prevTimer) => (prevTimer > 0 ? prevTimer - 1 : 0));
+			}, 1000); // Countdown every second
+
+			// Clear the interval when the day view ends
+			return () => {
+				clearInterval(dayInterval);
+				clearInterval(countdown);
+			};
 		}
 	}, [showDay]);
+
+	const openWhatsApp = () => {
+		const url = "whatsapp://send?phone=918340431775&text=Yes%20Asim";
+		Linking.canOpenURL(url)
+			.then((supported) => {
+				if (supported) {
+					Linking.openURL(url);
+				} else {
+					Alert.alert("Error", "WhatsApp is not installed on your device.");
+				}
+			})
+			.catch((err) => Alert.alert("Error", "An error occurred", err));
+	};
+
+	const handleYesClick = (e) => {
+		e.preventDefault();
+		Alert.alert(
+			"Open WhatsApp",
+			"Do you want to open WhatsApp to send your response?",
+			[
+				{
+					text: "Cancel",
+					style: "cancel",
+				},
+				{
+					text: "Open WhatsApp",
+					onPress: openWhatsApp,
+				},
+			],
+		);
+	};
 
 	return (
 		<div className='mx-auto w-full max-w-7xl p-4 bg-pink-50 min-h-screen flex justify-center items-center'>
@@ -61,6 +105,10 @@ export default function ProposalPage() {
 						<p className=' text-black text-xl sm:text-2xl font-light mt-4'>
 							{dayStories[dayCount - 1]}
 						</p>
+						{/* Timer display */}
+						<div className='absolute top-0 text-center w-full text-black text-2xl mt-4'>
+							Time remaining: {timer}s
+						</div>
 					</div>
 				</div>
 			)}
@@ -79,8 +127,9 @@ export default function ProposalPage() {
 							Will you be mine? 💍
 						</div>
 						<button
-							type='submit'
-							className='w-1/2 py-3 px-6 text-white bg-red-600 rounded-lg hover:opacity-75 font-semibold mx-auto block'>
+							type='button'
+							className='w-1/2 py-3 px-6 text-white bg-red-600 rounded-lg hover:opacity-75 font-semibold mx-auto block'
+							onClick={handleYesClick}>
 							Yes
 						</button>
 					</form>
