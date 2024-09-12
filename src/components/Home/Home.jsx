@@ -79,19 +79,22 @@ export default function ProposalPage() {
 
 			{/* Step 2: Day transition view with heart background */}
 			{showDay && (
-				<div className='relative w-full h-full flex justify-center items-center'>
-					<div className='heart-background absolute w-full h-full'></div>
+				<>
+					<div className='relative w-full h-full flex justify-center items-center'>
+						<div className='heart-background absolute w-full h-full'></div>
+
+						<div className='absolute text-black text-3xl sm:text-4xl font-bold day-transition'>
+							💕 Day {dayCount} 💕
+							<p className=' text-black text-xl sm:text-2xl font-light mt-4'>
+								{dayStories[dayCount - 1]}
+							</p>
+							{/* Timer display */}
+						</div>
+					</div>
 					<div className='absolute top-0 text-center w-full text-black text-2xl mt-4'>
 						Time remaining: {timer}s
 					</div>
-					<div className='absolute text-black text-3xl sm:text-4xl font-bold day-transition'>
-						💕 Day {dayCount} 💕
-						<p className=' text-black text-xl sm:text-2xl font-light mt-4'>
-							{dayStories[dayCount - 1]}
-						</p>
-						{/* Timer display */}
-					</div>
-				</div>
+				</>
 			)}
 
 			{/* Step 3: Final proposal view */}
