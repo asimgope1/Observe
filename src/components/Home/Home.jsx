@@ -84,16 +84,16 @@ export default function ProposalPage() {
 						<div className='heart-background absolute w-full h-full'></div>
 
 						<div className='absolute text-black text-3xl sm:text-4xl font-bold day-transition'>
-							💕 Day {dayCount} 💕
+							💕 Day {dayCount} 💕 Next Day in: {timer}s
 							<p className=' text-black text-xl sm:text-2xl font-light mt-4'>
 								{dayStories[dayCount - 1]}
 							</p>
 							{/* Timer display */}
 						</div>
 					</div>
-					<div className='absolute top-0 text-center w-full text-black text-2xl mt-4'>
+					{/* <div className='absolute top-0 text-center w-full text-black text-2xl mt-4'>
 						Time remaining: {timer}s
-					</div>
+					</div> */}
 				</>
 			)}
 
