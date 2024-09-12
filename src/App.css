@@ -43,3 +43,32 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Heart animation */
+.heart-left-animation {
+  animation: moveLeft 2s forwards;
+}
+
+.heart-right-animation {
+  animation: moveRight 2s forwards;
+}
+
+@keyframes moveLeft {
+  from {
+    transform: translateX(-100%) rotate(-45deg);
+  }
+
+  to {
+    transform: translateX(0) rotate(-45deg);
+  }
+}
+
+@keyframes moveRight {
+  from {
+    transform: translateX(100%) rotate(45deg);
+  }
+
+  to {
+    transform: translateX(0) rotate(45deg);
+  }
+}
